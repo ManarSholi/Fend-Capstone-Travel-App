@@ -1,0 +1,231 @@
+const serverURL = 'http://localhost:8082';
+let countryName = '';
+let tripId;
+
+const getTravelInfo = async (event) => {
+    const city = document.getElementById('city').value;
+    const date = document.getElementById('date').value;
+    const tripName = document.getElementById('trip-name').value;
+
+    tripId = await fetch(`${serverURL}/last-id`)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        return JSON.stringify(data.index);
+                    })
+                    .catch((error) => {
+                        return 0;
+                    });
+
+    tripId = Number(tripId) + 1;
+
+    if (!city) {
+        alert('Please enter the city.');
+        return;
+    }
+
+    getGeo(`${serverURL}/get-geo`, {'city': city, 'tripName': tripName})
+    .then((geo) => {
+        if (!geo) {
+            throw new Error('No data available.');
+        }
+
+        const geoNames = geo.geonames[0];
+        const lat = geoNames.lat;
+        const lon = geoNames.lng;
+        countryName = geoNames.countryName;
+
+        return getWeather(`${serverURL}/get-weather`, {
+            'lat': lat,
+            'lon': lon,
+            'date': date
+        });
+    })
+    .then((weather) => {
+        if (!weather) {
+            throw new Error('No data available.');
+        }
+
+        console.log("weather: ", weather);
+
+        const weatherDesc = weather ? weather.weather.description : '';
+
+        console.log('weatherDesc: ', weatherDesc);
+        return getPixabay(`${serverURL}/get-pixabay`, {'city': city + ' ' + weatherDesc, 'country': countryName + ' ' + weatherDesc});
+    })
+    .then(() => {
+        updateUI(event);
+    })
+    .catch((error) => {
+        console.error('Unable to fetch data:', error);
+    });
+}
+
+const getGeo = async (url, data) => {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .catch((error) => {
+        console.log('Error Getting GEO: ', error);
+    });
+}
+
+const getWeather = async (url, data) => {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .catch((error) => {
+        console.log("Error Getting Weather Data: ", error);
+    });
+}
+
+const getPixabay = async (url, data) => {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .catch((error) => {
+        console.log("Error Getting Pixabay Data: ", error);
+    });
+}
+
+const updateUI = async (event) => {
+    console.log('hello: ', event.type);
+    return fetch(`${serverURL}/data`)
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Unable to fetch UI data.');
+        }
+
+        console.log("up ui: ", response);
+
+        return response.json();
+    })
+    .then((data) => {
+        console.log("up ui data: ", data);
+
+        const res = data.data;
+        if (event.type === 'load') {
+            const elements = document.getElementsByClassName('trips-div');
+            if (elements.length === 0) {
+                for (let i = 0; i < res.length; i++) {
+                    const result = res[i];
+                    if (result && result.length !== 0) {
+                        createElements(i);
+                    }
+                }
+            }
+        }
+
+        let geo = {};
+        let weather = {};
+        let pixabay = {};
+        let tripName = '';
+
+        for (let i = 0; i < res.length; i++) {
+            const result = res[i];
+            if (result && result.length !== 0) {
+                tripName = result[0].tripName;
+                geo = result[1].geo.geonames[0];
+                if (geo) {
+                    weather = result[2].weather;
+                } else {
+                    weather = result[1].weather;
+                }
+                if (weather) {
+                    pixabay = result[3].pixabay;
+                } else {
+                    pixabay = result[2].pixabay;
+                }
+
+                console.log(geo);
+                console.log(weather);
+                let img = document.getElementById(`place-img${i}`);
+                let title = document.getElementById(`trip-title${i}`);
+                let datetime = document.getElementById(`trip-date-${i}`);
+                let weatherInfo = document.getElementById(`weather-info${i}`);
+                let state = document.getElementById(`state${i}`);
+
+                if (!img) {
+                    createElements(i);
+                    img = document.getElementById(`place-img${i}`);
+                    title = document.getElementById(`trip-title${i}`);
+                    datetime = document.getElementById(`trip-date-${i}`);
+                    weatherInfo = document.getElementById(`weather-info${i}`);
+                    state = document.getElementById(`state${i}`);
+                }
+                console.log(datetime);
+                img.src = pixabay.webformatURL;
+                title.innerHTML = tripName + '<br> My trip to: ' + (geo ? (geo.name + ', ' + geo.countryName)  : geo.countryName) + '<br>Departing: ' + (weather ? weather.datetime : '');
+                weatherInfo.innerHTML = weather ? ('Typical weather for then is: <br>' + 'High: ' + weather.high_temp + ', Low: ' + weather.low_temp) : '';
+                state.innerHTML = weather ? (weather.weather.description) : '';
+            }
+        }
+    })
+    .catch((error) => {
+        console.error('Unable to fetch data:', error);
+    });
+}
+
+function createElements(i) {
+    const divElement = document.createElement('div');
+    const img = document.createElement('img');
+    const divChildren = document.createElement('div');
+    const title = document.createElement('h3');
+    const date = document.createElement('span');
+    const weatherInfo = document.createElement('p');
+    const state = document.createElement('p');
+
+    divElement.setAttribute('id', `trip-div${i}`);
+    divElement.setAttribute('class', 'trips-div');
+
+    img.setAttribute('id', `place-img${i}`);
+    img.setAttribute('class', `place-img`);
+
+    divChildren.setAttribute('id', `div-child${i}`);
+    divChildren.setAttribute('class', `div-child`);
+
+    title.setAttribute('id', `trip-title${i}`);
+    title.setAttribute('class', `trip-title`);
+
+    date.setAttribute('id', `trip-date-${i}`);
+    weatherInfo.setAttribute('id', `weather-info${i}`);
+    state.setAttribute('id', `state${i}`);
+
+    title.appendChild(date);
+    divChildren.appendChild(title);
+    divChildren.appendChild(weatherInfo);
+    divChildren.appendChild(state);
+    
+    divElement.appendChild(img);
+    divElement.appendChild(divChildren);
+
+    const resultSection = document.getElementById('result-section');
+    resultSection.appendChild(divElement);
+}
+
+export {
+    getTravelInfo,
+    updateUI
+}

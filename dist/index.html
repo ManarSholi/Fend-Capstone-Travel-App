@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Travel App</title><meta name="description" content=""><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/dist/main.css"><script defer="defer" src="main.js"></script><link href="main.css" rel="stylesheet"></head><body><div class="container"><header></header><main><section><button type="submit" id="add-trip">Add Trip</button> <button type="submit" id="delete-all-trips">Delete All Trips</button></section><section class="data-section"><div id="content"></div></section><section id="result-section"></section></main></div></body><script>// Check that service workers are supported
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(reg => console.log("Service Worker Registered:", reg))
+                    .catch(err => console.error("Service Worker Registration Failed:", err));
+            });
+        }</script><script src="/main.js"></script></html>
