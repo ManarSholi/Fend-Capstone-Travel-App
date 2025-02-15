@@ -10,8 +10,8 @@
     justify-content: center;
     min-width: 700px;
     max-width: 700px;
-    min-height: 250px;
-    max-height: 250px;
+    min-height: 260px;
+    max-height: 270px;
     position: relative;
 }
 
@@ -104,6 +104,7 @@ main {
     margin-top: 20px;
     margin-right: 20px;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .trip-title {
@@ -112,7 +113,8 @@ main {
 }
 
 .add-section {
-    width: 25vw;
+    min-width: 200px;
+    max-width: 200px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -122,12 +124,14 @@ main {
     border-radius: 15px;
     background-color: #c6bcc6;
     padding: 10px;
+    cursor: pointer;
 }
 
 #delete-all-trips {
     border-radius: 15px;
     background-color: #c6bcc6;
     padding: 10px;
+    cursor: pointer;
 }
 
 .t-title {
@@ -148,4 +152,22 @@ main {
     background-color: #c6bcc6;
     padding: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.delete-trip-div {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    position: absolute;
+    bottom: 22px;
+    width: 90%;
+}
+
+.delete-trip {
+    text-align: center;
+    border-radius: 15px;
+    background-color: #c6bcc6;
+    padding: 10px;
+    cursor: pointer;
 }

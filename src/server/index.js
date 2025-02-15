@@ -160,6 +160,13 @@ app.delete('/delete-all-trips', function(req, res) {
     res.send({'message': 'All Trips Deleted successfully!'});
 });
 
+app.delete('/delete-trip/:tripId', function (req, res) {
+    const id = req.params.tripId;
+    delete trips[id];
+
+    res.send({'message': 'Trip Deleted Successfully!'});
+});
+
 app.listen(PORT, () => {
     console.log(`Travel App Working on http://localhost:${PORT}`);
 });

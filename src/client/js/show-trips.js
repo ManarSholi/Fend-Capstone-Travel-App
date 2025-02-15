@@ -151,14 +151,13 @@ const updateUI = async (event) => {
                     pixabay = result[2].pixabay;
                 }
 
-                console.log(geo);
-                console.log(weather);
                 let img = document.getElementById(`place-img${i}`);
                 let title = document.getElementById(`trip-title${i}`);
                 let datetime = document.getElementById(`trip-date-${i}`);
                 let weatherInfo = document.getElementById(`weather-info${i}`);
                 let state = document.getElementById(`state${i}`);
-
+                let deleteTrip = document.getElementById(`delete-trip-${i}`);
+                
                 if (!img) {
                     createElements(i);
                     img = document.getElementById(`place-img${i}`);
@@ -166,19 +165,49 @@ const updateUI = async (event) => {
                     datetime = document.getElementById(`trip-date-${i}`);
                     weatherInfo = document.getElementById(`weather-info${i}`);
                     state = document.getElementById(`state${i}`);
+                    deleteTrip = document.getElementById(`delete-trip-${i}`);
                 }
-                console.log(datetime);
+
                 img.src = pixabay.webformatURL;
                 tripName = '<div class="t-title">' + tripName.charAt(0).toUpperCase() + tripName.slice(1) + '</div>';
                 title.innerHTML = tripName + '<br> My trip to: ' + (geo ? (geo.name + ', ' + geo.countryName)  : geo.countryName) + '<br>Departing: ' + (weather ? weather.datetime : '');
                 weatherInfo.innerHTML = weather ? ('Typical weather for then is: <br>' + 'High: ' + weather.high_temp + ', Low: ' + weather.low_temp) : '';
                 state.innerHTML = weather ? (weather.weather.description) : '';
+                deleteTripAction(deleteTrip);
             }
         }
     })
     .catch((error) => {
         console.error('Unable to fetch data:', error);
     });
+}
+
+const deleteSpecificTrip = async (e) => {
+    const tripId = e.srcElement.id.split('-')[2];
+
+    return await fetch(`${serverURL}/delete-trip/${tripId}`, {
+        method: 'DELETE'
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Cannot delete this trip.');
+        }
+
+        return response.json();
+    })
+    .then((data) => {
+        document.getElementById('result-section').innerHTML = '';
+        return data;
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+}
+
+function deleteTripAction(deleteTrip) {
+    if (deleteTrip) {
+        deleteTrip.addEventListener('click', (e) => deleteSpecificTrip(e));
+    }
 }
 
 function createElements(i) {
@@ -189,6 +218,8 @@ function createElements(i) {
     const date = document.createElement('span');
     const weatherInfo = document.createElement('p');
     const state = document.createElement('p');
+    const deleteTrip = document.createElement('button');
+    const deleteTripDiv = document.createElement('div');
 
     divElement.setAttribute('id', `trip-div${i}`);
     divElement.setAttribute('class', 'trips-div');
@@ -206,10 +237,18 @@ function createElements(i) {
     weatherInfo.setAttribute('id', `weather-info${i}`);
     state.setAttribute('id', `state${i}`);
 
+    deleteTripDiv.setAttribute('class', 'delete-trip-div');
+    deleteTrip.setAttribute('type', 'submit');
+    deleteTrip.setAttribute('id', `delete-trip-${i}`);
+    deleteTrip.setAttribute('class', `delete-trip`);
+    deleteTrip.textContent = 'Delete Trip';
+
+    deleteTripDiv.appendChild(deleteTrip);
     title.appendChild(date);
     divChildren.appendChild(title);
     divChildren.appendChild(weatherInfo);
     divChildren.appendChild(state);
+    divChildren.appendChild(deleteTripDiv);
     
     divElement.appendChild(img);
     divElement.appendChild(divChildren);

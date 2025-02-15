@@ -28,9 +28,9 @@ const deleteTrips = async (event) => {
         method: 'DELETE'
     })
     .then((response) => {
-        console.log("response: ", response);
         updateUI(event);
         document.getElementById('result-section').innerHTML = '';
+
         return response.json();
     })
     .then((data) => {
