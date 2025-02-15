@@ -16,6 +16,7 @@ async function addTrip() {
         }
 
         addTravelInfoListener();
+        loadDatePicker();
     }).catch((error) => {
         console.log('Error in trip.');
     });
@@ -47,6 +48,21 @@ function addTravelInfoListener() {
     } else {
         console.log('Travel Info Button Not Work!');
     }
+}
+
+function loadDatePicker() {
+    const date = document.getElementById('date');
+    const today = new Date();
+    const maxDate = new Date();
+
+    maxDate.setDate(today.getDate() + 16);
+
+    const formateDate = (d) => {
+        return d.toISOString().split('T')[0];
+    }
+
+    date.min = formateDate(today);
+    date.max = formateDate(maxDate);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
