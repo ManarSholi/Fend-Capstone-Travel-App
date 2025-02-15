@@ -13,7 +13,6 @@ const app = express();
 dotenv.config();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(cors());
 
 app.use(express.static('dist'));
@@ -53,6 +52,7 @@ let i = 0;
 
 app.post('/get-geo', async function (req, res) {
     const tripName = req.body.tripName;
+    const tripDetail = req.body.tripDetail;
     await fetch(geoUrl(req.body.city, geoKey), {
         method: 'GET',
         redirect: 'follow'
@@ -70,6 +70,7 @@ app.post('/get-geo', async function (req, res) {
             }
 
             trips[i].push({'tripName': tripName});
+            trips[i].push({'tripDetail': tripDetail});
             trips[i].push({ 'geo': data });
             res.send(data);
         })
@@ -129,11 +130,12 @@ app.post('/get-pixabay', async function (req, res) {
                     if (!response.ok) {
                         return res.status(400).json('Error');
                     }
-        
+
                     return response.json();
                 })
                 .then(async (data) => {
                     trips[i].push({ 'pixabay': data.hits[0] });
+
                     res.send(data);
                 });
             } else {

@@ -2,7 +2,6 @@ import "./styles/style.scss";
 import {getTravelInfo, updateUI} from './js/show-trips.js';
 
 const serverURL = 'http://localhost:8082';
-let countryName = '';
 
 async function addTrip() {
     return await fetch(`${serverURL}/add-trip`, {
@@ -19,7 +18,7 @@ async function addTrip() {
         loadDatePicker();
         closeInfoSection();
     }).catch((error) => {
-        console.log('Error in trip.');
+        console.log('Error in trip.', error);
     });
 }
 

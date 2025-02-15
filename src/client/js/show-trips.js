@@ -6,6 +6,7 @@ const getTravelInfo = async (event) => {
     const city = document.getElementById('city').value;
     const date = document.getElementById('date').value;
     const tripName = document.getElementById('trip-name').value;
+    const tripDetail = document.getElementById('trip-detail').value;
 
     tripId = await fetch(`${serverURL}/last-id`)
                     .then((response) => {
@@ -25,7 +26,7 @@ const getTravelInfo = async (event) => {
         return;
     }
 
-    getGeo(`${serverURL}/get-geo`, {'city': city, 'tripName': tripName})
+    getGeo(`${serverURL}/get-geo`, {'city': city, 'tripName': tripName, 'tripDetail': tripDetail})
     .then((geo) => {
         if (!geo) {
             throw new Error('No data available.');
@@ -70,6 +71,9 @@ const getGeo = async (url, data) => {
     .then((response) => {
         return response.json();
     })
+    .then((data) => {
+        return data;
+    })
     .catch((error) => {
         console.log('Error Getting GEO: ', error);
     });
@@ -86,6 +90,9 @@ const getWeather = async (url, data) => {
     .then((response) => {
         return response.json();
     })
+    .then((data) => {
+        return data;
+    })
     .catch((error) => {
         console.log("Error Getting Weather Data: ", error);
     });
@@ -101,6 +108,9 @@ const getPixabay = async (url, data) => {
     })
     .then((response) => {
         return response.json();
+    })
+    .then((data) => {
+        return data;
     })
     .catch((error) => {
         console.log("Error Getting Pixabay Data: ", error);
@@ -134,21 +144,23 @@ const updateUI = async (event) => {
         let weather = {};
         let pixabay = {};
         let tripName = '';
+        let tripDetail = '';
 
         for (let i = 0; i < res.length; i++) {
             const result = res[i];
             if (result && result.length !== 0) {
                 tripName = result[0].tripName;
-                geo = result[1].geo.geonames[0];
+                tripDetail = result[1].tripDetail;
+                geo = result[2].geo.geonames[0];
                 if (geo) {
-                    weather = result[2].weather;
+                    weather = result[3].weather;
                 } else {
-                    weather = result[1].weather;
+                    weather = result[2].weather;
                 }
                 if (weather) {
-                    pixabay = result[3].pixabay;
+                    pixabay = result[4].pixabay;
                 } else {
-                    pixabay = result[2].pixabay;
+                    pixabay = result[3].pixabay;
                 }
 
                 let img = document.getElementById(`place-img${i}`);
@@ -157,6 +169,7 @@ const updateUI = async (event) => {
                 let weatherInfo = document.getElementById(`weather-info${i}`);
                 let state = document.getElementById(`state${i}`);
                 let deleteTrip = document.getElementById(`delete-trip-${i}`);
+                let tDetail = document.getElementById(`trip-detail${i}`);
                 
                 if (!img) {
                     createElements(i);
@@ -166,6 +179,7 @@ const updateUI = async (event) => {
                     weatherInfo = document.getElementById(`weather-info${i}`);
                     state = document.getElementById(`state${i}`);
                     deleteTrip = document.getElementById(`delete-trip-${i}`);
+                    tDetail = document.getElementById(`trip-detail${i}`);
                 }
 
                 img.src = pixabay.webformatURL;
@@ -173,6 +187,8 @@ const updateUI = async (event) => {
                 title.innerHTML = tripName + '<br> My trip to: ' + (geo ? (geo.name + ', ' + geo.countryName)  : geo.countryName) + '<br>Departing: ' + (weather ? weather.datetime : '');
                 weatherInfo.innerHTML = weather ? ('Typical weather for then is: <br>' + 'High: ' + weather.high_temp + ', Low: ' + weather.low_temp) : '';
                 state.innerHTML = weather ? (weather.weather.description) : '';
+                tDetail.innerHTML = '<strong>Trip Detail</strong><br>' + tripDetail;
+                
                 deleteTripAction(deleteTrip);
             }
         }
@@ -196,7 +212,7 @@ const deleteSpecificTrip = async (e) => {
         return response.json();
     })
     .then((data) => {
-        document.getElementById('result-section').innerHTML = '';
+        location.reload();
         return data;
     })
     .catch((error) => {
@@ -220,6 +236,7 @@ function createElements(i) {
     const state = document.createElement('p');
     const deleteTrip = document.createElement('button');
     const deleteTripDiv = document.createElement('div');
+    const tripDetail = document.createElement('p');
 
     divElement.setAttribute('id', `trip-div${i}`);
     divElement.setAttribute('class', 'trips-div');
@@ -232,6 +249,9 @@ function createElements(i) {
 
     title.setAttribute('id', `trip-title${i}`);
     title.setAttribute('class', `trip-title`);
+    
+    tripDetail.setAttribute('id', `trip-detail${i}`);
+    tripDetail.setAttribute('class', `trip-d`);
 
     date.setAttribute('id', `trip-date-${i}`);
     weatherInfo.setAttribute('id', `weather-info${i}`);
@@ -248,6 +268,7 @@ function createElements(i) {
     divChildren.appendChild(title);
     divChildren.appendChild(weatherInfo);
     divChildren.appendChild(state);
+    divChildren.appendChild(tripDetail);
     divChildren.appendChild(deleteTripDiv);
     
     divElement.appendChild(img);
