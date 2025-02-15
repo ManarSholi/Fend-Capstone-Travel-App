@@ -47,11 +47,8 @@ const getTravelInfo = async (event) => {
             throw new Error('No data available.');
         }
 
-        console.log("weather: ", weather);
-
         const weatherDesc = weather ? weather.weather.description : '';
 
-        console.log('weatherDesc: ', weatherDesc);
         return getPixabay(`${serverURL}/get-pixabay`, {'city': city + ' ' + weatherDesc, 'country': countryName + ' ' + weatherDesc});
     })
     .then(() => {
@@ -111,20 +108,15 @@ const getPixabay = async (url, data) => {
 }
 
 const updateUI = async (event) => {
-    console.log('hello: ', event.type);
     return fetch(`${serverURL}/data`)
     .then((response) => {
         if (!response.ok) {
             throw new Error('Unable to fetch UI data.');
         }
 
-        console.log("up ui: ", response);
-
         return response.json();
     })
     .then((data) => {
-        console.log("up ui data: ", data);
-
         const res = data.data;
         if (event.type === 'load') {
             const elements = document.getElementsByClassName('trips-div');
@@ -177,6 +169,7 @@ const updateUI = async (event) => {
                 }
                 console.log(datetime);
                 img.src = pixabay.webformatURL;
+                tripName = '<div class="t-title">' + tripName.charAt(0).toUpperCase() + tripName.slice(1) + '</div>';
                 title.innerHTML = tripName + '<br> My trip to: ' + (geo ? (geo.name + ', ' + geo.countryName)  : geo.countryName) + '<br>Departing: ' + (weather ? weather.datetime : '');
                 weatherInfo.innerHTML = weather ? ('Typical weather for then is: <br>' + 'High: ' + weather.high_temp + ', Low: ' + weather.low_temp) : '';
                 state.innerHTML = weather ? (weather.weather.description) : '';

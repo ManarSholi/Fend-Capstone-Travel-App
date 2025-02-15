@@ -17,6 +17,7 @@ async function addTrip() {
 
         addTravelInfoListener();
         loadDatePicker();
+        closeInfoSection();
     }).catch((error) => {
         console.log('Error in trip.');
     });
@@ -47,6 +48,16 @@ function addTravelInfoListener() {
         travelInfoButton.addEventListener('click', (e) => getTravelInfo(e));
     } else {
         console.log('Travel Info Button Not Work!');
+    }
+}
+
+function closeInfoSection() {
+    const closeSvg = document.getElementById('close');
+    if (closeSvg) {
+        closeSvg.addEventListener('click', (e) => {
+            const addFormSection = document.getElementById('add-form-section');
+            addFormSection.style.display = 'none';
+        });
     }
 }
 

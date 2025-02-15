@@ -1,6 +1,18 @@
 .data-section {
     display: flex;
     justify-content: center;
+    border: 2px solid purple;
+    border-radius: 35px;
+}
+
+.add-form-section {
+    display: flex;
+    justify-content: center;
+    min-width: 700px;
+    max-width: 700px;
+    min-height: 250px;
+    max-height: 250px;
+    position: relative;
 }
 
 .add-trip {
@@ -10,7 +22,7 @@
     max-width: 500px;
     justify-content: space-between;
     min-height: 50vh;
-    max-height: 50vh;
+    max-height: 100%;
 }
 
 .add-trip h1 {
@@ -21,8 +33,30 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 20vh;
-    max-height: 20vh;
+    min-height: 30vh;
+    max-height: 30vh;
+    min-width: 300px;
+    max-width: 300px;
+
+}
+
+.form div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#trip-name, #city {
+    width: 170px;
+    height: 21px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#date {
+    width: 173px;
+    height: 23px;
+    border-radius: 8px;
+    padding: 3px;
 }
 
 main {
@@ -39,7 +73,7 @@ main {
     border: 2px solid purple;
     border-radius: 35px;
     display: flex;
-    padding: 20px;
+    padding: 0;
     gap: 20px;
 }
 
@@ -47,6 +81,9 @@ main {
     width: 50%;
     height: 55vh;
     border-radius: 35px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 #result-section {
@@ -64,9 +101,51 @@ main {
     padding-left: 20px;
     width: 50%;
     border-radius: 35px;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .trip-title {
     text-align: start;
     width: fit-content;
+}
+
+.add-section {
+    width: 25vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#add-trip {
+    border-radius: 15px;
+    background-color: #c6bcc6;
+    padding: 10px;
+}
+
+#delete-all-trips {
+    border-radius: 15px;
+    background-color: #c6bcc6;
+    padding: 10px;
+}
+
+.t-title {
+    text-align: center;
+}
+
+#close {
+    top: 15px;
+    right: 15px;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+#travel-info {
+    border-radius: 15px;
+    background-color: #c6bcc6;
+    padding: 10px;
+    margin-bottom: 10px;
 }

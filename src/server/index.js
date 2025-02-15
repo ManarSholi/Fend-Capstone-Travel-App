@@ -45,7 +45,6 @@ function weatherbitURL(lat, lon, key) {
 function pixabayURL(city, key) {
     const url = `https://pixabay.com/api/?key=${key}&q=${city}&image_type=photo`;
     
-    console.log('pixabay url: ', url);
     return url;
 }
 
@@ -75,7 +74,6 @@ app.post('/get-geo', async function (req, res) {
             res.send(data);
         })
         .catch((error) => {
-            console.log("error: ", error);
             res.status(500).json({ error: "Internal Server Error" });
         });
 });
@@ -105,7 +103,6 @@ app.post('/get-weather', async function (req, res) {
             }
         })
         .catch((error) => {
-            console.log("error: ", error);
             res.status(500).json({ error: "Internal Server Error" });
         });
 });
@@ -146,7 +143,6 @@ app.post('/get-pixabay', async function (req, res) {
             i += 1;
         })
         .catch((error) => {
-            console.log("error: ", error);
             res.status(500).json({ error: "Internal Server Error" });
         });
 });
