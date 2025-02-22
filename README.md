@@ -66,6 +66,7 @@ This is a travel application that allows users to plan their trips by entering a
 
 ## Project Structure
 
+```
 Root
 ├── package.json
 |
@@ -102,6 +103,8 @@ Root
 │
 ├── webpack.dev.js
 ├── webpack.prod.js
+
+```
 
 ## Run The code 
     npm i
