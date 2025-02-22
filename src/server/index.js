@@ -43,7 +43,7 @@ function weatherbitURL(lat, lon, key) {
 
 function pixabayURL(city, key) {
     const url = `https://pixabay.com/api/?key=${key}&q=${city}&image_type=photo`;
-    
+
     return url;
 }
 
@@ -59,7 +59,8 @@ app.post('/get-geo', async function (req, res) {
     })
         .then((response) => {
             if (!response.ok) {
-                return res.status(400).json('Error');
+                console.error(`Geo API Error: ${response.status} ${response.statusText}`);
+                return res.status(response.status).json({ error: `Geo API Error: ${response.status} ${response.statusText}` });
             }
 
             return response.json();
@@ -69,8 +70,8 @@ app.post('/get-geo', async function (req, res) {
                 trips[i] = [];  // Initialize if undefined
             }
 
-            trips[i].push({'tripName': tripName});
-            trips[i].push({'tripDetail': tripDetail});
+            trips[i].push({ 'tripName': tripName });
+            trips[i].push({ 'tripDetail': tripDetail });
             trips[i].push({ 'geo': data });
             res.send(data);
         })
@@ -87,7 +88,8 @@ app.post('/get-weather', async function (req, res) {
     })
         .then((response) => {
             if (!response.ok) {
-                return res.status(400).json('Error');
+                console.error(`Weather API Error: ${response.status} ${response.statusText}`);
+                return res.status(response.status).json({ error: `Weather API Error: ${response.status} ${response.statusText}`});
             }
 
             return response.json();
@@ -116,7 +118,8 @@ app.post('/get-pixabay', async function (req, res) {
     })
         .then((response) => {
             if (!response.ok) {
-                return res.status(400).json('Error');
+                console.error(`Pixabay API Error: ${response.status} ${response.statusText}`);
+                return res.status(response.status).json({ error: `Pixabay API Error: ${response.status} ${response.statusText}`});
             }
 
             return response.json();
@@ -133,11 +136,11 @@ app.post('/get-pixabay', async function (req, res) {
 
                     return response.json();
                 })
-                .then(async (data) => {
-                    trips[i].push({ 'pixabay': data.hits[0] });
+                    .then(async (data) => {
+                        trips[i].push({ 'pixabay': data.hits[0] });
 
-                    res.send(data);
-                });
+                        res.send(data);
+                    });
             } else {
                 trips[i].push({ 'pixabay': data.hits[0] });
                 res.send(data);
@@ -153,22 +156,24 @@ app.get('/data', function (req, res) {
     res.send({ 'message': 'Weather Info.', 'data': trips });
 });
 
-app.get('/last-id', function(req, res) {
-    res.send({'index': i});
+app.get('/last-id', function (req, res) {
+    res.send({ 'index': i });
 });
 
-app.delete('/delete-all-trips', function(req, res) {
+app.delete('/delete-all-trips', function (req, res) {
     trips = [];
-    res.send({'message': 'All Trips Deleted successfully!'});
+    res.send({ 'message': 'All Trips Deleted successfully!' });
 });
 
 app.delete('/delete-trip/:tripId', function (req, res) {
     const id = req.params.tripId;
     delete trips[id];
 
-    res.send({'message': 'Trip Deleted Successfully!'});
+    res.send({ 'message': 'Trip Deleted Successfully!' });
 });
 
 app.listen(PORT, () => {
     console.log(`Travel App Working on http://localhost:${PORT}`);
 });
+
+export default app;
