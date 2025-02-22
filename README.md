@@ -77,20 +77,34 @@ This is a travel application that allows users to plan their trips by entering a
 
 Root
 ├── package.json
+|
 ├── readme.md
+|
 ├── src
+|   |
+|   |
 │   ├── client
+|   |   |
 │   │   ├── index.js
+|   |   |
 │   │   ├── js
+|   |   |   |
 │   │   │   └── show-trips.js
+|   |   |    
 │   │   ├── styles
+|   |   |   |
 │   │   │   └── style.scss
+|   |   |
 │   │   └── views
+|   |       |
 │   │       └── index.html
+|   |
 │   └── server
+|       |
 │       └── index.js
 |
 ├── __tests__
+|   |
 │   ├── index.test.js
 │   │
 │   └── show-trip-test.js
