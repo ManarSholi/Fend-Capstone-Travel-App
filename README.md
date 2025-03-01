@@ -14,8 +14,8 @@ This is a travel application that allows users to plan their trips by entering a
 
 * JavaScript (ES6+)
 * Webpack
-* Express.js
-* Node.js
+* Express.js 4.16.1
+* Node.js v16.20.2
 * Jest
 * HTML5
 * SCSS
