@@ -1,5 +1,5 @@
 .data-section {
-    display: flex;
+    display: none;
     justify-content: center;
     border: 2px solid purple;
     border-radius: 35px;
@@ -10,8 +10,8 @@
     justify-content: center;
     min-width: 700px;
     max-width: 700px;
-    min-height: 400px;
-    max-height: 400px;
+    min-height: 60vh;
+    max-height: 100vh;
     position: relative;
 }
 
@@ -47,9 +47,10 @@
 .trip-detail-div {
     display: flex;
     justify-content: stretch;
-    height: 30%;
+    height: 35%;
     min-width: 100%;
     max-width: 100%;
+    gap: 50px;
 }
 
 .trip-detail {
@@ -77,14 +78,14 @@
 main {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 100px;
     justify-content: center;
     align-items: center;
 }
 
 .trips-div {
     width: 100%;
-    height: fit-content;
+    height: 70vh;
     border: 2px solid purple;
     border-radius: 35px;
     display: flex;
@@ -94,7 +95,7 @@ main {
 
 .place-img {
     width: 50%;
-    height: 55vh;
+    height: 60vh;
     border-radius: 35px;
     margin-top: 20px;
     margin-left: 20px;
@@ -108,6 +109,7 @@ main {
     justify-content: center;
     min-width: 700px;
     max-width: 700px;
+    height: fit-content;
 }
 
 .div-child {
@@ -120,7 +122,7 @@ main {
     margin-right: 20px;
     margin-bottom: 20px;
     position: relative;
-    height: fit-content;
+    height: 58vh;
 }
 
 .trip-title {
@@ -191,5 +193,109 @@ main {
 .trip-d {
     width: 240px;
     overflow-wrap: break-word;
-    margin-bottom: 75px;
+    height: 20vh;
+    margin: 0;
 }
+
+/* Mobile devices */
+@media (min-width: 320px) and (max-width: 768px) {
+    .add-form-section {
+        display: flex;
+        flex-direction: column;
+        min-width: 70vw;
+        max-width: 70vw;
+    }
+
+    .form {
+        min-width: 100%;
+        max-width: 100%;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .form div {
+        flex-direction: column;
+    }
+
+    .add-trip h1 {
+        width: 100%;
+    }
+
+    .add-trip {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .trip-detail {
+        height: 30vh;
+        width: 78%;
+    }
+
+    .trip-detail-div {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    #result-section {
+        min-width: 70vw;
+        max-width: 70vw;
+    }
+
+    .trips-div {
+        flex-direction: column;
+        width: 70vw;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .place-img {
+        width: 90%;
+        height: 32vh;
+        margin-bottom: 0;
+        margin-left: 0;
+    }
+
+    .div-child {
+        width: 90%;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+        margin-top: 0;
+        height: 100%;
+    }
+
+    .div-child h3,
+    .div-child p {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .delete-trip-div {
+        width: 100%;
+    }
+
+    .trip-d {
+        width: 90%;
+        max-width: 90%;
+        min-width: 90%;
+        height: 25vh;
+        margin: 0;
+        margin-left: 10px;
+    }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {}
+
+/* Tablet devices */
+@media (max-width: 1024px) {}
+
+/* Large Desktop screens */
+@media (min-width: 1200px) {}
+
+/* Small screens */
+@media (max-width: 480px) {}

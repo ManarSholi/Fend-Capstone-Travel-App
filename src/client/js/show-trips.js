@@ -73,20 +73,20 @@ const getGeo = async (url, data) => {
         },
         body: JSON.stringify(data)
     })
-    .then((response) => {
-        if (!response.ok) {
-            console.error(`Fetch Error: ${response.status} ${response.statusText}`);
-            throw new Error(`Fetch Error: ${response.status} ${response.statusText}`);
-        }
+        .then((response) => {
+            if (!response.ok) {
+                console.error(`Fetch Error: ${response.status} ${response.statusText}`);
+                throw new Error(`Fetch Error: ${response.status} ${response.statusText}`);
+            }
 
-        return response.json();
-    })
-    .then((data) => {
-        return data;
-    })
-    .catch((error) => {
-        console.log('Error Getting GEO: ', error);
-    });
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.log('Error Getting GEO: ', error);
+        });
 }
 
 const getWeather = async (url, data) => {
@@ -97,20 +97,20 @@ const getWeather = async (url, data) => {
         },
         body: JSON.stringify(data)
     })
-    .then((response) => {
-        if (!response.ok) {
-            console.error(`Fetch Error: ${response.status} ${response.statusText}`);
-            throw new Error(`Fetch Error: ${response.status} ${response.statusText}`);
-        }
+        .then((response) => {
+            if (!response.ok) {
+                console.error(`Fetch Error: ${response.status} ${response.statusText}`);
+                throw new Error(`Fetch Error: ${response.status} ${response.statusText}`);
+            }
 
-        return response.json();
-    })
-    .then((data) => {
-        return data;
-    })
-    .catch((error) => {
-        console.log("Error Getting Weather Data: ", error);
-    });
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.log("Error Getting Weather Data: ", error);
+        });
 }
 
 const getPixabay = async (url, data) => {
@@ -121,23 +121,27 @@ const getPixabay = async (url, data) => {
         },
         body: JSON.stringify(data)
     })
-    .then((response) => {
-        if (!response.ok) {
-            console.error(`Fetch Error: ${response.status} ${response.statusText}`);
-            throw new Error(`Fetch Error: ${response.status} ${response.statusText}`);
-        }
+        .then((response) => {
+            if (!response.ok) {
+                console.error(`Fetch Error: ${response.status} ${response.statusText}`);
+                throw new Error(`Fetch Error: ${response.status} ${response.statusText}`);
+            }
 
-        return response.json();
-    })
-    .then((data) => {
-        return data;
-    })
-    .catch((error) => {
-        console.log("Error Getting Pixabay Data: ", error);
-    });
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.log("Error Getting Pixabay Data: ", error);
+        });
 }
 
 const updateUI = async (event) => {
+    if (!document.getElementById('content').hasChildNodes()) {
+        document.querySelector('.data-section').style.display = 'none';
+    }
+
     return fetch(`${serverURL}/data`)
         .then((response) => {
             if (!response.ok) {

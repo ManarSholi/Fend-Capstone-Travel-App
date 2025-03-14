@@ -2,7 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 import HtmlWebPackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import WorkboxPlugin from 'workbox-webpack-plugin';
 import { fileURLToPath } from 'url';
@@ -27,7 +27,7 @@ export default {
         open: true
     },
     optimization: {
-        minimizer: [new TerserPlugin({}), new OptimizeCSSAssetsPlugin({})],
+        minimizer: [new TerserPlugin({}), new CssMinimizerPlugin({})],
     },
     module: {
         rules: [

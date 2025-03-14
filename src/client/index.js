@@ -1,5 +1,5 @@
 import "./styles/style.scss";
-import {getTravelInfo, updateUI} from './js/show-trips.js';
+import { getTravelInfo, updateUI } from './js/show-trips.js';
 
 const serverURL = 'http://localhost:8082';
 
@@ -12,6 +12,7 @@ async function addTrip() {
         const contentDiv = document.getElementById('content');
         if (contentDiv) {
             contentDiv.innerHTML = htmlContent;
+            document.querySelector('.data-section').style.display = 'flex';
         }
 
         addTravelInfoListener();
@@ -26,18 +27,18 @@ const deleteTrips = async (event) => {
     return await fetch(`${serverURL}/delete-all-trips`, {
         method: 'DELETE'
     })
-    .then((response) => {
-        updateUI(event);
-        document.getElementById('result-section').innerHTML = '';
+        .then((response) => {
+            updateUI(event);
+            document.getElementById('result-section').innerHTML = '';
 
-        return response.json();
-    })
-    .then((data) => {
-        return data;
-    })
-    .catch((error) => {
-        console.error('Error in deleting all trips.', error);
-    });
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.error('Error in deleting all trips.', error);
+        });
 }
 
 function addTravelInfoListener() {
@@ -56,6 +57,7 @@ function closeInfoSection() {
         closeSvg.addEventListener('click', (e) => {
             const addFormSection = document.getElementById('add-form-section');
             addFormSection.style.display = 'none';
+            document.querySelector('.data-section').style.display = 'none';
         });
     }
 }
