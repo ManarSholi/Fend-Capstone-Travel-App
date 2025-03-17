@@ -173,6 +173,20 @@ main {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: purple !important;
+    color: white;
+}
+
+input:focus {
+    background-color: #c6bcc6;
+}
+
+#close:hover {
+    width: 45px !important;
+    height: 45px !important;
+}
+
 .delete-trip-div {
     display: flex;
     justify-content: center;
