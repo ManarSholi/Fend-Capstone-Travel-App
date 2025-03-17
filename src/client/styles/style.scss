@@ -1,3 +1,15 @@
+body {
+    background-color: #c6bcc6;
+    -webkit-transition: background-color 2s ease-out;
+    -moz-transition: background-color 2s ease-out;
+    -o-transition: background-color 2s ease-out;
+    transition: background-color 2s ease-out;
+}
+
+body:hover {
+    background-color: white;
+}
+
 .data-section {
     display: none;
     justify-content: center;
@@ -179,6 +191,10 @@ button:hover {
 }
 
 input:focus {
+    background-color: #c6bcc6;
+}
+
+textarea:focus {
     background-color: #c6bcc6;
 }
 
